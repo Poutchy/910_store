@@ -1,0 +1,33 @@
+#!/bin/bash -e
+
+# Enable jemalloc for reduced memory usage and latency.
+if [ -z "${LD_PRELOAD+x}" ]; then
+    LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
+    export LD_PRELOAD
+fi
+
+# Helper: wait for database to be ready
+echo "Checking database connection..."
+MAX_ATTEMPTS=15
+ATTEMPT=1
+
+until ./bin/rails db:version >/dev/null 2>&1 || [ $ATTEMPT -gt $MAX_ATTEMPTS ]; do
+  echo "Waiting for database... (attempt $ATTEMPT/$MAX_ATTEMPTS)"
+  sleep 2
+  ((ATTEMPT++))
+done
+
+if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
+  echo "❌ Database connection failed after $MAX_ATTEMPTS attempts."
+  exit 1
+fi
+
+# If running the Rails server, then run migrations and seed
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+  echo "Preparing database (migrations + seed)..."
+  ./bin/rails db:migrate
+  ./bin/rails db:seed
+fi
+
+# Finally, run the command passed to the container
+exec "${@}"

@@ -1,34 +1,49 @@
-version: '3.9'
-
+# docker-compose.yml
 services:
   mysql:
     image: mysql:8.0
     container_name: store-mysql
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.prod
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rails-app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: store-rails
-    command: bash -c "rm -f tmp/pids/server.pid && bin/rails db:seed && bin/rails server -b 0.0.0.0"
     env_file:
-      - .env
+      - .env.prod
     ports:
-      - "3000:3000"
-    volumes:
-      - .:/workspaces/store:cached
+      - "3000:80"   # Map host 3000 -> container port 80
     depends_on:
-      - mysql
-
+      mysql:
+        condition: service_healthy
+    volumes:
+      # In production, you might remove this bind mount; included here if you want live code
+      - .:/rails:cached
+    restart: unless-stopped
+    # Use the Dockerfile entrypoint (docker-entrypoint handles database prep)
+    command: >
+      bash -c "
+      bin/rails db:migrate &&
+      bin/rails db:seed &&
+      ./bin/thrust ./bin/rails server -b 0.0.0.0"
+      
 volumes:
   db_data:

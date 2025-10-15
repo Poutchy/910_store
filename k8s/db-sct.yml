@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  DB_PASSWORD: cE50RnFlczhranRwUmZNblF5P1MmP05RZkxpTjVxJCR0VFQ=
+  DB_USERNAME: cmFpbHM=
+  MYSQL_ROOT_PASSWORD: cm9vdA==

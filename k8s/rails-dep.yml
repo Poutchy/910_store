@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: railshop
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: railshop
@@ -14,7 +14,12 @@ spec:
     spec:
       containers:
         - name: railshop
-          image: gnachy/shop
+          image: gnachy/railshop:latest
+          envFrom:
+            - secretRef:
+                name: rails-secret
+            - configMapRef:
+                name: railstore-config
           resources:
             limits:
               memory: "400Mi"

@@ -1,0 +1,34 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Rails app Docker image
+        run: |
+          docker compose --env-file .env.prod build rails-app
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push gnachy/railshop:latest
+
+      - name: Prepare Kubernetes deployment
+        run: |
+          echo "Deployment to Kubernetes would go here."
+          echo "For example: kubectl apply -f k8s/"
+          # kubectl apply -f k8s/  # Uncomment when Kubernetes is ready

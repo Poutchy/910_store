@@ -1,0 +1,82 @@
+@import "variables.css";
+
+/* =================== */
+/* Messages flash */
+/* =================== */
+.flash {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-md);
+  font-weight: 500;
+}
+
+.flash-alert {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.flash-notice {
+  background-color: var(--color-success);
+  color: white;
+}
+
+/* =================== */
+/* Formulaire de login */
+/* =================== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+form input[type="email"],
+form input[type="password"] {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+form input[type="submit"] {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+form input[type="submit"]:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* =================== */
+/* Lien mot de passe oublié */
+/* =================== */
+form + a {
+  display: inline-block;
+  margin-top: var(--spacing-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+form + a:hover {
+  color: var(--color-accent);
+}

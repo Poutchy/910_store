@@ -1,0 +1,49 @@
+/* app/assets/stylesheets/variables.css */
+
+/* ============================= */
+/* 🎨 Variables globales du thème */
+/* ============================= */
+
+:root {
+  /* Couleurs principales */
+  --color-primary: #2b6cb0;       /* Bleu principal */
+  --color-primary-light: #4299e1; /* Bleu clair */
+  --color-secondary: #ed8936;     /* Orange secondaire */
+  --color-accent: #38b2ac;        /* Vert-bleu accent */
+  --color-danger: #e53e3e;        /* Rouge erreurs */
+  --color-success: #48bb78;       /* Vert succès */
+  --color-warning: #ecc94b;       /* Jaune avertissement */
+
+  /* Couleurs neutres */
+  --color-bg: #f7fafc;            /* Fond clair */
+  --color-bg-dark: #1a202c;       /* Fond sombre */
+  --color-text: #2d3748;          /* Texte principal */
+  --color-text-light: #718096;    /* Texte secondaire */
+  --color-border: #e2e8f0;        /* Bordures */
+
+  /* Typographie */
+  --font-family: 'Inter', 'Roboto', sans-serif;
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-large: 20px;
+  --line-height: 1.6;
+
+  /* Espacements */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Ombres et bordures */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-slow: 0.4s ease-in-out;
+}

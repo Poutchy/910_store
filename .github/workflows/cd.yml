@@ -17,10 +17,13 @@ jobs:
         run: |
           cat <<EOF > .env.prod
           RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+          SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
           DB_NAME=${{ secrets.DB_NAME }}
           DB_USERNAME=${{ secrets.DB_USERNAME }}
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+          GMAIL_USERNAME=${{ secrets.GMAIL_USERNAME }}
+          GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}
           EOF
 
       - name: Log in to Docker Hub

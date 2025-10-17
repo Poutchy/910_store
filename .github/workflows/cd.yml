@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  docker-build-and-push:
+  docker-build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,11 +40,35 @@ jobs:
         run: |
           docker push gnachy/railshop:latest
 
-      - name: Prepare Kubernetes deployment
+      - name: Generate kubeconfig from secrets
         run: |
-          echo "Deployment to Kubernetes would go here."
-          export KUBECONFIG=./deploy/kubeconfig_ovh-tps.yml
+          cat <<EOF > kubeconfig.yml
+          apiVersion: v1
+          clusters:
+          - cluster:
+              certificate-authority-data: ${{ secrets.CERTIFICATE_AUTHORITY_DATA }}
+              server: ${{ secrets.SERVER }}
+            name: ${{ secrets.CONTEXT_CLUSTER }}
+          contexts:
+          - context:
+              cluster: ${{ secrets.CONTEXT_CLUSTER }}
+              user: ${{ secrets.CONTEXT_USER }}
+            name: ${{ secrets.CURRENT_CONTEXT }}
+          current-context: ${{ secrets.CURRENT_CONTEXT }}
+          kind: Config
+          preferences: {}
+          users:
+          - name: ${{ secrets.CONTEXT_USER }}
+            user:
+              client-certificate-data: ${{ secrets.CLIENT_CERTIFICATE_DATA }}
+              client-key-data: ${{ secrets.CLIENT_KEY_DATA }}
+          EOF
+          export KUBECONFIG=$PWD/kubeconfig.yml
+
+      - name: Deploy to Kubernetes
+        run: |
           kubectl apply -f k8s/
 
-      - name: Remove temporary .env.prod
-        run: rm -f .env.prod
+      - name: Cleanup temporary files
+        run: |
+          rm -f .env.prod kubeconfig.yml

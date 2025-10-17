@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: railshop
+  name: railshop
+  namespace: railshop
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt-prod
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - railshop.tps.learninglab.eu
+      secretName: railshop-stagging
+  rules:
+    - host: railshop.tps.learninglab.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: railshop
+                port:
+                  number: 80

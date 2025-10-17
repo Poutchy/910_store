@@ -43,8 +43,8 @@ jobs:
       - name: Prepare Kubernetes deployment
         run: |
           echo "Deployment to Kubernetes would go here."
-          echo "For example: kubectl apply -f k8s/"
-          # kubectl apply -f k8s/  # Uncomment when cluster is ready
+          export KUBECONFIG=./deploy/kubeconfig_ovh-tps.yml
+          kubectl apply -f k8s/
 
       - name: Remove temporary .env.prod
         run: rm -f .env.prod

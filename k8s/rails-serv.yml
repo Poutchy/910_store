@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: railshop
+  namespace: railshop
 spec:
   selector:
     app: railshop

@@ -8,10 +8,10 @@
 ## Description de l’application
 
 **910_store** est une application web développée avec Ruby on Rails permettant de gérer une boutique en ligne :
-- Authentification des utilisateurs
+- Authentification des administrateurs
 - Page principal avec la liste des produits
 - Visualisation détaillé d'un produit
-- Ajout, modification et suppression de produits (pour les utilisateurs authentifiés)  
+- Ajout, modification et suppression de produits (pour les administrateurs authentifiés)  
 - Gestion des stocks
 
 ## Prérequis
@@ -54,17 +54,10 @@
    docker push <dockerhub-username>/910_store:latest
    ```
 
-2. **Créer les fichiers de configuration Kubernetes**
-   - `deployment.yaml` pour le déploiement de l’application
-   - `service.yaml` pour exposer l’application
-   - (optionnel) `postgres.yaml` pour la base de données
-
-3. **Déployer sur le cluster**
+2. **Déployer sur le cluster**
    ```sh
-   kubectl apply -f postgres.yaml      # si besoin
-   kubectl apply -f deployment.yaml
-   kubectl apply -f service.yaml
+   kubectl apply -f k8s/
    ```
 
-4. **Accéder à l’application**
+3. **Accéder à l’application**
    - Utilise `kubectl get svc` pour récupérer l’URL ou l’IP d’accès.
